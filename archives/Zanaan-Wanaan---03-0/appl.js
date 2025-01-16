@@ -15,7 +15,7 @@ var wavey=-1;
 var frozenl=false;
 var maxFrozenl = 200;
 var showFrozenl = 0;
-var currentRegion;
+var currentRegion = null;
 var nbRegions=0;
 var peaksSaved=false;
 var gotPeaks=false;
@@ -114,6 +114,41 @@ var incSpeed = function() {
     wspeed=Math.min(wspeed+0.1,5.0);
     $('#svalue').html(("x"+wspeed).substring(0,4));
     // svid = setTimeout( "incSpeed();", 500 );
+}
+
+/*
+ * Play and loop a region
+ */
+var playRegion = function(regid, changeState) {
+
+    console.log( "linear play region : " + regid + " current :  " + currentRegion);
+    wavesurfer.setDisabledEventEmissions(['interaction']);
+    if ( regid == currentRegion && !changeState ) {
+       return;
+    }
+
+    // new region is the same
+    var wregion = wavesurfer.regions.list[regid];
+    if ( regid == currentRegion ) {
+       console.log("linear region is the same : " + currentRegion );
+       if ( !wavesurfer.isPlaying() ) {
+          console.log("linear play loop" );
+          wregion.setLoop(true);
+          wregion.playLoop();
+       } else {
+          console.log("linear pause" );
+          wavesurfer.pause();
+        }
+    } else {
+        console.log("linear play region over other : " + regid );
+        console.log("linear play loop" );
+        currentRegion = regid;
+        wregion.setLoop(true);
+        wregion.playLoop();
+    }
+
+    updateTableOne(currentRegion);
+    wavesurfer.setDisabledEventEmissions([]);
 }
 
 /*
@@ -320,7 +355,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
         peaks = data;
         console.log( "got peaks : " + peaks.length );
         if ( peaks.length == 2*nbPeaks ) {
-           console.log( "free : loading with peaks : " + soundfile );
+           console.log( "linear : loading with peaks : " + soundfile );
            wavesurfer.load( soundfile, data );
            $("#modal-waitl").modal("hide");
            gotPeaks=true;
@@ -342,6 +377,37 @@ document.addEventListener('DOMContentLoaded', (e) => {
       }
     });
 
+    /* interaction */
+    wavesurfer.on('interaction', (gluck) => {
+       wavesurfer.setDisabledEventEmissions(['interaction']);
+       gluck();
+       var newTime = wavesurfer.getCurrentTime();
+       if ( newTime == 0 ) {
+          wavesurfer.setDisabledEventEmissions(['']);
+          return;
+       }
+       var inRegion = false;
+       Object.keys(wavesurfer.regions.list).map(function(id) {
+           var wregion = wavesurfer.regions.list[id];
+           if ( wregion.end >= newTime && newTime >= wregion.start ) {
+              inRegion = true;
+           } else {
+              wregion.setLoop(false);
+           }
+       });
+       console.log( "linear interaction : "  + newTime + " inRegion : " + inRegion );
+       if ( !inRegion ) {
+          if ( !wavesurfer.isPlaying() ) {
+             wavesurfer.play();
+          } else {
+             wavesurfer.pause();
+          }
+          currentRegion = null;
+          updateTable();
+       }
+       wavesurfer.setDisabledEventEmissions(['']);
+    });
+
     /* ready */
     wavesurfer.on('ready', function() {
 
@@ -351,6 +417,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
         console.log("waveform is at : (" + wposition.x + "," + wposition.x + ")");
         wavey = wposition.y;
         wavey = 100;
+
+        loadRegions();
 
         var atrans = "<img src='../../img/translate.png' title='Translate Document' class='trans-header' id='tall' onclick='translateStartAlll()' />";
         $("#archive-header").append(atrans);
@@ -375,21 +443,16 @@ document.addEventListener('DOMContentLoaded', (e) => {
     wavesurfer.on('pause', function() {
         $(".linear-play").removeClass('fa-pause');
         $(".linear-play").addClass('fa-play');
+        $("#fplay").attr('data-action','play');
     });
 
     wavesurfer.on('play', function() {
-     if ( currentRegion != null ) {
-        let wregion = wavesurfer.regions.list[currentRegion];
-        wregion.setLoop(false);
-        $("#r"+currentRegion).removeClass("fa-pause");
-        $("#r"+currentRegion).addClass("fa-play");
-        $("#"+currentRegion).css("border-color","#000000");
-        currentRegion = null;
-     }
+        $("#fplay").removeClass('fa-play');
+        $("#fplay").addClass('fa-pause');
+        $("#fplay").attr('data-action','pause');
     });
 
     wavesurfer.responsive=true;
-
 
     $('#sminus').on('mousedown', function() {
        evid = setTimeout( "decSpeed();", 100 );
@@ -560,18 +623,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
       drawAndSaveRegions();
       updateTable();
     }
-
-    // zplus.onclick = function(e) {
-    //    wzoom++;
-    //    wavesurfer.zoom(wzoom);
-    //    $("#zlabel").html("Zoom : " + wzoom.toFixed(2) );
-    // }
-
-    // zminus.onclick = function(e) {
-    //    wzoom--;
-    //    wavesurfer.zoom(wzoom);
-    //    $("#zlabel").html("Zoom : " + wzoom.toFixed(2) );
-    // }
 
     zoomZoom.oninput = function(e) {
        wzoom=Number(this.value)/10.0;
@@ -816,6 +867,7 @@ function doDeleteAnnotation(index) {
  * Recreate all the table from regions
  */
 function updateTable() {
+    console.log("linear update table");
     $("#linear-notes").html("");
     let counter=4096;
     Object.keys(wavesurfer.regions.list).map(function(id) {
@@ -849,9 +901,15 @@ function updateTable() {
     });
 
     if ( currentRegion != null ) {
-      $("#r"+currentRegion).removeClass("fa-play");
-      $("#r"+currentRegion).addClass("fa-pause");
-      $("#"+currentRegion).css("border-color","#ff0000");
+      if ( wavesurfer.isPlaying() ) {
+         $("#r"+currentRegion).removeClass("fa-play");
+         $("#r"+currentRegion).addClass("fa-pause");
+         $("#"+currentRegion).css("border-color","#ff0000");
+      } else {
+         $("#r"+currentRegion).removeClass("fa-pause");
+         $("#r"+currentRegion).addClass("fa-play");
+         $("#"+currentRegion).css("border-color","#000000");
+      }
     }
 }
 
@@ -859,6 +917,7 @@ function updateTable() {
  * Update table with only one note for immediate edit
  */
 function updateTableOne(currentId) {
+    console.log("linear update table one : " + currentId );
     $("#linear-notes").html("");
     let counter=4096;
     Object.keys(wavesurfer.regions.list).map(function(id) {
@@ -892,6 +951,18 @@ function updateTableOne(currentId) {
         });
       }
     });
+
+    if ( currentRegion != null ) {
+      if ( wavesurfer.isPlaying() ) {
+         $("#r"+currentRegion).removeClass("fa-play");
+         $("#r"+currentRegion).addClass("fa-pause");
+         $("#"+currentRegion).css("border-color","#ff0000");
+      } else {
+         $("#r"+currentRegion).removeClass("fa-pause");
+         $("#r"+currentRegion).addClass("fa-play");
+         $("#"+currentRegion).css("border-color","#000000");
+      }
+    }
 }
 
 /**
@@ -1111,8 +1182,9 @@ function randomColor(alpha) {
 function regionClick(region, e) {
     // play region in a loop, exit the loop when edition is done
     // propagate the click to the sound wave to set play time
+    console.log("linear region click");
     if ( currentRegion != null && region.id != currentRegion )
-       deleteNote(region);
+       deleteNote(currentRegion);
     showNote(region);
     playRegion(region.id, true );
 
@@ -1123,7 +1195,6 @@ function regionClick(region, e) {
         clientY: e.clientY
     });
     document.querySelector('wave').dispatchEvent(clickEvent);
-    currentRegion = region.id;
     setTimeout( "showCurrentNote();", 500 );
 }
 
@@ -1253,56 +1324,6 @@ var whisperStart = function(regid) {
     }
 }
 
-var playRegion = function(regid, changeState) {
-
-    var wregion = wavesurfer.regions.list[regid];
-    console.log( "play region : " + regid + " current :  " + currentRegion);
-    if ( regid == currentRegion && !changeState ) {
-       return;
-    }
-
-    // desactivate all playing regions
-    Object.keys(wavesurfer.regions.list).map(function(id) {
-       $("#r"+id).removeClass("fa-pause");
-       $("#r"+id).addClass("fa-play");
-       $("#"+id).css("border-color","#000000");
-    });
-
-    // really stop
-    if ( regid == currentRegion ) {
-       if ( !wavesurfer.isPlaying() ) {
-          wregion.setLoop(true);
-          wregion.playLoop();
-          $("#r"+regid).removeClass("fa-play");
-          $("#r"+regid).addClass("fa-pause");
-          $("#"+regid).css("border-color","#ff0000");
-          return;
-       } else {
-          wavesurfer.pause();
-          return;
-        }
-    }
-
-    if ( !wavesurfer.isPlaying() )
-    {
-       wregion.setLoop(true);
-       wregion.playLoop();
-       $("#r"+regid).removeClass("fa-play");
-       $("#r"+regid).addClass("fa-pause");
-       $("#"+regid).css("border-color","#ff0000");
-       currentRegion = regid;
-    } else {
-       wavesurfer.pause();
-       wregion.setLoop(true);
-       wregion.playLoop();
-       $("#r"+regid).removeClass("fa-play");
-       $("#r"+regid).addClass("fa-pause");
-       $("#"+regid).css("border-color","#ff0000");
-       currentRegion = regid;
-    }
-
-}
-
 /**
  * Display annotation of current region
  */
@@ -1316,7 +1337,7 @@ function showCurrentNote() {
  */
 function showNote(region) {
     if ( region == null ) return; 
-    console.log( "showNote : " + region.id );
+    console.log( "linear show note : " + region.id );
     currentRegion = region.id;
     // hide all notes, except this one
     if (!showNote.el) {
@@ -1343,31 +1364,23 @@ function showNote(region) {
         }
     });
     showNote.el.innerHTML = snote;
+    updateTableOne(currentRegion);
 }
 
 /**
  * Delete annotation.
  */
 function deleteNote(region) {
-    // console.log( "delete note");
-    // we're out of the region, so playing button must be turned off
-    // useless, we will redraw all
-    // if ( currentRegion != null ) {
-    //   $("#r"+currentRegion).removeClass("fa-pause");
-    //   $("#r"+currentRegion).addClass("fa-play");
-    //   $("#"+currentRegion).css("border-color","#000000");
-    //   currentRegion = null;
-    // }
-    // show all notes
+    console.log( "linear delete note");
     if ( region == null ) return; 
     console.log( "deleteNote : " + region.id );
     if (!deleteNote.el) {
        deleteNote.el = document.querySelector('#subtitle');
     }
-    if ( region.id === currentRegion ) {
+    if ( region.id === currentRegion && !region.loop ) {
        deleteNote.el.innerHTML = '';
     }
-    // updateTable();
+    updateTable();
 }
 
 

@@ -21,7 +21,6 @@ do
 echo "Directory : $dir"
 cp -f archives/template/*.js "archives/$dir"
 cp -f archives/template/*.php "archives/$dir"
-cp -f archives/template/*.json "archives/$dir"
 sed -i "s#__file_url__#$1#g" "archives/$dir/app.js"
 sed -i "s#__file_url__#$1#g" "archives/$dir/appl.js"
 sed -i "s#__file_url__#$1#g" "archives/$dir/index.php"

@@ -155,7 +155,14 @@ body {
 
 .note-textarea {
     width: 100%; 
+    border-color: #000000; 
 }
+
+.note-textarea-play {
+    width: 100%; 
+    border-color: #ff0000; 
+}
+
 
 .export-notes {
     float: right;

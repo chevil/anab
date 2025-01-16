@@ -250,8 +250,8 @@ while ( $rowsetting = mysqli_fetch_array( $ressettings) )
                   <div class="modal-dialog">
                     <center><h3>Edit Note</h3>
                     <div id="audiobook-div"><i id="audiobook" class="fa fa-book fa-2x" width="30px" height="30px" /></i></div>
-                    <div id="whisper-div" class="whisper-div"><img src="../../img/whisper-logo.png" width="30px" height="30px" onclick="whisperStart('')" /></div>
-                    <div id="trans-div" class="trans-div"><img src="../../img/translate.png" width="30px" height="30px" onclick="translationStart('')" /></div>
+                    <div id="whisper-div" class="whisper-div-edit"><img src="../../img/whisper-logo.png" width="30px" height="30px" onclick="whisperStart('')" /></div>
+                    <div id="trans-div" class="trans-div-edit"><img src="../../img/translate.png" width="30px" height="30px" onclick="translationStart('')" /></div>
                     <div class="modal-content">
                       <center>
                         <i id="fplay" class="fa fa-play fa-2x" data-action="play-region"></i>  

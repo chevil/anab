@@ -18,6 +18,26 @@ var showFrozen = 0;
 var gotPeaks=false;
 var soundfile = '__file_url__';
 
+function printPrototype(obj, i) {
+    var n = Number(i || 0);
+    var indent = Array(2 + n).join("-");
+
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key)) {
+            console.log(indent, key, ": ", obj[key]);
+        }
+    }
+
+    if(obj) {
+        if(Object.getPrototypeOf) {
+            printPrototype(Object.getPrototypeOf(obj), n + 1);
+        } else if(obj.__proto__) {
+            printPrototype(obj.__proto__, n + 1);
+        }
+    }
+}
+
+
 var strstr = function (haystack, needle) {
   if (needle.length === 0) return 0;
   if (needle === haystack) return 0;
@@ -334,6 +354,37 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
     });
 
+    wavesurfer.on('interaction', (gluck) => {
+       wavesurfer.setDisabledEventEmissions(['interaction']);
+       gluck();
+       var newTime = wavesurfer.getCurrentTime();
+       if ( newTime == 0 ) {
+          wavesurfer.setDisabledEventEmissions(['']);
+          return;
+       } 
+       var inRegion = false;
+       Object.keys(wavesurfer.regions.list).map(function(id) {
+           var wregion = wavesurfer.regions.list[id];
+           if ( wregion.end >= newTime && newTime >= wregion.start ) {
+              inRegion = true;
+              // wregion.setLoop(true);
+              // wregion.playLoop();
+              $("#r"+id).removeClass("fa-play");
+              $("#r"+id).addClass("fa-pause");
+              $("#"+id).css("border-color","#ff0000");
+           } else {
+              wregion.setLoop(false);
+              $("#r"+id).removeClass("fa-pause");
+              $("#r"+id).addClass("fa-play");
+              $("#"+id).css("border-color","#000000");
+           }
+       });
+       console.log( "free interaction : "  + newTime + " inRegion : " + inRegion );
+       if ( !inRegion ) {
+          wavesurfer.play();
+       }
+       wavesurfer.setDisabledEventEmissions(['']);
+    });
     wavesurfer.on('region-click', regionClick);
     wavesurfer.on('region-dblclick', editAnnotation);
     wavesurfer.on('region-updated', drawAndSaveRegions);
@@ -358,10 +409,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
         $("#fplay").removeClass('fa-play');
         $("#fplay").addClass('fa-pause');
         $("#fplay").attr('data-action','pause');
-        // if ( currentRegion != null ) {
-        //    $("#r"+currentRegion).removeClass("fa-play");
-        //    $("#r"+currentRegion).addClass("fa-pause");
-        // }
     });
 
     wavesurfer.on('pause', function() {
@@ -1059,6 +1106,7 @@ function randomColor(alpha) {
  * When a region is clicked, pass the click to the waveform.
  */
 function regionClick(region, e) {
+    console.log("free region click");
     if ( currentRegion != null && region.id != currentRegion )
        deleteNote(region);
     showNote(region);
@@ -1130,7 +1178,17 @@ function editAnnotation(region, e) {
  */
 function showNote(region) {
     if ( region == null ) return;
+    if ( currentRegion != null ) {
+      $("#r"+currentRegion).removeClass("fa-pause");
+      $("#r"+currentRegion).addClass("fa-play");
+      $("#"+currentRegion).css("border-color","#000000");
+    }
     currentRegion = region.id;
+    if ( currentRegion != null ) {
+      $("#r"+currentRegion).removeClass("fa-play");
+      $("#r"+currentRegion).addClass("fa-pause");
+      $("#"+currentRegion).css("border-color","#ff0000");
+    }
     // console.log( "show note");
     if (!showNote.el || !showNote.uel) {
         showNote.uel = document.querySelector('#subtitle');
@@ -1181,13 +1239,6 @@ function showNote(region) {
  * Delete annotation.
  */
 function deleteNote(region) {
-    // we're out of the region, so playing button must be turned off
-    // if ( currentRegion != null ) {
-    //   $("#r"+currentRegion).removeClass("fa-pause");
-    //   $("#r"+currentRegion).addClass("fa-play");
-    //   $("#"+currentRegion).css("border-color","#000000");
-    //   currentRegion = null;
-    // }
     if ( region == null ) return;
     if (!deleteNote.el || !deleteNote.uel) {
        deleteNote.el = document.querySelector('#isubtitle');
@@ -1219,12 +1270,13 @@ function deleteNote(region) {
     // if ( (textr === textl) || (textr=="") || (textl=="") ) {
 
     // just checking we are the current region
-    if ( currentRegion != null && region.id === currentRegion ) {
+    if ( region.id === currentRegion && !region.loop) {
        deleteNote.el.innerHTML = '';
        deleteNote.el.style.display = 'none';
        deleteNote.uel.style.display = 'none';
        deleteNote.speaker.style.display = 'none';
     }
+    console.log( "free delete note : loop : " + region.loop);
 }
 
 /**
@@ -1402,19 +1454,22 @@ window.GLOBAL_ACTIONS['export'] = function() {
 };
 
 var playRegion = function(regid, changeState) {
+
+    wavesurfer.setDisabledEventEmissions(['interaction']);
     var wregion = wavesurfer.regions.list[regid];
+
     console.log( "play region : " + regid + " current :  " + currentRegion);
     if ( regid == currentRegion && !changeState ) {
        return;
     }
 
-    Object.keys(wavesurfer.regions.list).map(function(id) {
-       $("#r"+id).removeClass("fa-pause");
-       $("#r"+id).addClass("fa-play");
-       $("#"+id).css("border-color","#000000");
-    });
+    if ( currentRegion != null ) {
+       $("#r"+currentRegion).removeClass("fa-pause");
+       $("#r"+currentRegion).addClass("fa-play");
+       $("#"+currentRegion).css("border-color","#000000");
+    }
 
-    // really stop
+    // new region is the same
     if ( regid == currentRegion ) {
        if ( !wavesurfer.isPlaying() ) {
           wregion.setLoop(true);
@@ -1429,21 +1484,14 @@ var playRegion = function(regid, changeState) {
         }
     }
 
-    if ( !wavesurfer.isPlaying() )
-    {
-       wregion.setLoop(true);
-       wregion.playLoop();
-       $("#r"+regid).removeClass("fa-play");
-       $("#r"+regid).addClass("fa-pause");
-       $("#"+regid).css("border-color","#ff0000");
-       currentRegion = regid;
-    } else {
-       console.log("play region over other : " + regid );
-       $("#r"+regid).removeClass("fa-play");
-       $("#r"+regid).addClass("fa-pause");
-       $("#"+regid).css("border-color","#ff0000");
-       currentRegion = regid;
-       wregion.setLoop(true);
-       wregion.playLoop();
-    }
+    currentRegion = regid;
+    console.log("play region over other : " + regid );
+    wregion.setLoop(true);
+    wregion.playLoop();
+    $("#r"+regid).removeClass("fa-play");
+    $("#r"+regid).addClass("fa-pause");
+    $("#"+regid).css("border-color","#ff0000");
+
+    wavesurfer.setDisabledEventEmissions([]);
 }
+
