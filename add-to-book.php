@@ -37,7 +37,7 @@ require("html2text.php");
      exit(-1);
   }
 
-  if ( ( $result=exec("./create-empty-book.sh \"".$book."\"; echo $?") ) != 0 )
+  if ( ( $result=exec("./create-empty-book.sh \"".urldecode($book)."\"; echo $?") ) != 0 )
   {
      header('HTTP/1.1 500 Could not create book');
      exit(-1);
