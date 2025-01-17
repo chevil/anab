@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="ncc:timeInThisSmil" content="4.048980"/>
+        <meta name="ncc:totalElapsedTime" content="13.061225"/>
+        <layout>
+            <region id="txt-view"/>
+        </layout>
+        <meta name="ncc:generator" content="A.N.a.B."/>
+        <meta name="title" content=" Protected from the nauseous means and w..."/>
+        <meta name="dc:title" content=" Protected from the nauseous means and w..."/>
+        <meta name="dc:identifier" content="en: Protected from the nauseous means and ways ca:Protegit dels mitjans i vies nauseabunds fr:Protégé des moyens et voies nauséabonds"/>
+    </head>
+    <body>
+        <seq dur="4.048980">
+            <par endsync="last">
+                <text src="ncc.html#anno_26863" id="anno_26863"/>
+                <seq>
+                    <audio src="anno_26863.ogg" clip-begin="npt=0.000s" clip-end="npt=4.048980s" id="anno_26863"/>
+                </seq>
+            </par>
+        </seq>
+    </body>
+</smil>

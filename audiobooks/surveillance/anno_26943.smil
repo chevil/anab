@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="ncc:timeInThisSmil" content="406.776000"/>
+        <meta name="ncc:totalElapsedTime" content="430.8"/>
+        <layout>
+            <region id="txt-view"/>
+        </layout>
+        <meta name="ncc:generator" content="A.N.a.B."/>
+        <meta name="title" content="Identification by AI in Taiwan..."/>
+        <meta name="dc:title" content="Identification by AI in Taiwan..."/>
+        <meta name="dc:identifier" content="Identification by AI in Taiwan"/>
+    </head>
+    <body>
+        <seq dur="406.776000">
+            <par endsync="last">
+                <text src="ncc.html#anno_26943" id="anno_26943"/>
+                <seq>
+                    <audio src="anno_26943.ogg" clip-begin="npt=0.000s" clip-end="npt=406.776000s" id="anno_26943"/>
+                </seq>
+            </par>
+        </seq>
+    </body>
+</smil>

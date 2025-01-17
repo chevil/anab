@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="ncc:timeInThisSmil" content="6.034286"/>
+        <meta name="ncc:totalElapsedTime" content="7.026939"/>
+        <layout>
+            <region id="txt-view"/>
+        </layout>
+        <meta name="ncc:generator" content="A.N.a.B."/>
+        <meta name="title" content=" When sleep is worse than Christmas and ..."/>
+        <meta name="dc:title" content=" When sleep is worse than Christmas and ..."/>
+        <meta name="dc:identifier" content="en: When sleep is worse than Christmas and life's no right And I'm stuck on the edge with no hope of quiet ca:Quan el son és pitjor que el Nadal i la vida no és correcta I estic atrapat a la vora sense esperança de tranquil·litat fr:Quand le sommeil est pire que Noël et que la vie n'est pas juste et que je suis coincé au bord du gouffre sans espoir de calme"/>
+    </head>
+    <body>
+        <seq dur="6.034286">
+            <par endsync="last">
+                <text src="ncc.html#anno_26847" id="anno_26847"/>
+                <seq>
+                    <audio src="anno_26847.ogg" clip-begin="npt=0.000s" clip-end="npt=6.034286s" id="anno_26847"/>
+                </seq>
+            </par>
+        </seq>
+    </body>
+</smil>

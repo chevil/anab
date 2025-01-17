@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="ncc:timeInThisSmil" content="24.364082"/>
+        <meta name="ncc:totalElapsedTime" content="0"/>
+        <layout>
+            <region id="txt-view"/>
+        </layout>
+        <meta name="ncc:generator" content="A.N.a.B."/>
+        <meta name="title" content="Wonder Where Coakroaches Live..."/>
+        <meta name="dc:title" content="Wonder Where Coakroaches Live..."/>
+        <meta name="dc:identifier" content="Wonder Where Coakroaches Live"/>
+    </head>
+    <body>
+        <seq dur="24.364082">
+            <par endsync="last">
+                <text src="ncc.html#anno_25987" id="anno_25987"/>
+                <seq>
+                    <audio src="anno_25987.ogg" clip-begin="npt=0.000s" clip-end="npt=24.364082s" id="anno_25987"/>
+                </seq>
+            </par>
+        </seq>
+    </body>
+</smil>

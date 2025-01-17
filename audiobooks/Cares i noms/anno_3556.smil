@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="ncc:timeInThisSmil" content="77.660590"/>
+        <meta name="ncc:totalElapsedTime" content="0"/>
+        <layout>
+            <region id="txt-view"/>
+        </layout>
+        <meta name="ncc:generator" content="A.N.a.B."/>
+        <meta name="title" content="Presentació, per Jaume Nualart Vilaplan..."/>
+        <meta name="dc:title" content="Presentació, per Jaume Nualart Vilaplan..."/>
+        <meta name="dc:identifier" content="Presentació, per Jaume Nualart Vilaplana"/>
+    </head>
+    <body>
+        <seq dur="77.660590">
+            <par endsync="last">
+                <text src="ncc.html#anno_3556" id="anno_3556"/>
+                <seq>
+                    <audio src="anno_3556.ogg" clip-begin="npt=0.000s" clip-end="npt=77.660590s" id="anno_3556"/>
+                </seq>
+            </par>
+        </seq>
+    </body>
+</smil>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="ncc:timeInThisSmil" content="7.026939"/>
+        <meta name="ncc:totalElapsedTime" content="48.501226"/>
+        <layout>
+            <region id="txt-view"/>
+        </layout>
+        <meta name="ncc:generator" content="A.N.a.B."/>
+        <meta name="title" content=" When John McCauley's reburied in the Se..."/>
+        <meta name="dc:title" content=" When John McCauley's reburied in the Se..."/>
+        <meta name="dc:identifier" content="en: When John McCauley's reburied in the Senate Wild Wilde just all is torn out of the Cremlins ca:Quan John McCauley és tornat a enterrar al Senat Wilde Wilde, tot és tret dels Cremlins fr:Lorsque John McCauley est réinhumé au Sénat, Wild Wilde est tout simplement arraché aux Cremlins."/>
+    </head>
+    <body>
+        <seq dur="7.026939">
+            <par endsync="last">
+                <text src="ncc.html#anno_26842" id="anno_26842"/>
+                <seq>
+                    <audio src="anno_26842.ogg" clip-begin="npt=0.000s" clip-end="npt=7.026939s" id="anno_26842"/>
+                </seq>
+            </par>
+        </seq>
+    </body>
+</smil>

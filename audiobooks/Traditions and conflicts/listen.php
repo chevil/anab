@@ -37,6 +37,7 @@ while ( $rowsetting = mysqli_fetch_array( $ressettings) )
 <head>
   <meta charset="UTF-8">
   <title><?php echo $title; ?></title>
+
   <style type="text/css">
       .bluebutton { height: 30px; width : 200px; text-align: center;
                    line-height: 30px; vertical-align:middle; opacity : 1;
@@ -45,6 +46,7 @@ while ( $rowsetting = mysqli_fetch_array( $ressettings) )
                    line-height: 30px; vertical-align:middle; opacity : 1;
                    -moz-border-radius: 10px; border-radius: 10px; background : lightgreen }
       .stable { -moz-border-radius: 10px; border-radius: 10px; background : lightgrey }
+      h1 { font-weight: normal; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; box-sizing: border-box; font-size: 36px; }
   </style>
 
   <link href="../../css/alertify.core.css" rel="stylesheet">
@@ -57,6 +59,7 @@ while ( $rowsetting = mysqli_fetch_array( $ressettings) )
   <script type="text/javascript" src="../../js/jquery.min.js"></script>
   <script type="text/javascript" src="../../js/bootstrap.min.js"></script> 
   <script type="text/javascript" src="../../js/wavesurfer.min.js"></script>
+  <script type="text/javascript" src="../../js/jquery.ui.js"></script>
 
   <script type="text/javascript">
 
@@ -67,23 +70,23 @@ while ( $rowsetting = mysqli_fetch_array( $ressettings) )
 <body background="../../img/background.png">
 <a href="../../index.php"><i class="fa fa-chevron-left fa-1x" aria-hidden="true" style="color: #000000; float:left; margin-left:20px;" ></i></a>
 
-<center><table width=40%>
+<center><table width=90%>
 <tr><td align=right>
-</td><td valign=center>
+</td><td align=center>
 <h1><?php echo $config['project-name']; ?></h1>
-<br/><br/>
-<center>
-<h2>Audiobook : <?php echo $title; ?></h2>
-</center>
 </td</tr>
-</table>
+</table></center>
+
+<center>
+<h1>Audiobook : <?php echo $title; ?></h1>
+</center>
 
 <?php
 $resultdb=db_query("SELECT data, excerpt FROM audiobook, annotation WHERE audiobook.aoid=annotation.id AND audiobook.title='".rawurlencode($title)."' ORDER BY audiobook.norder" );
 $nbexcerpts=mysqli_num_rows($resultdb);
 if ( $nbexcerpts == 0 )
 {
-   print("<div class='listen-item'>This book is empty</div>");
+   print("<center><div class='listen-item'>This book is empty</div></center>");
 }
 else
 {
@@ -102,7 +105,7 @@ else
      }
      print("<div class='listen-item' id='wave".$counter."' ></div>");
      print("<div class='listen-item' id='excerpt".$counter."' style='display:none;'>../../".$row["excerpt"]."</div>");
-     print("<div class='listen-item' id='leyenda".$counter."' >".$snote."</div>");
+     print("<center><div class='listen-item' id='leyenda".$counter."' >".$snote."</div></center>");
      $counter++;
    }
 }
