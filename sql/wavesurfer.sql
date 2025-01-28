@@ -34,18 +34,24 @@ CREATE TABLE `annotation` (
   `color` longtext COLLATE utf8mb4_bin,
   `whispered` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=26945 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=27389 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `annotation`
+--
 
 --
 -- Table structure for table `archive`
 --
+
 DROP TABLE IF EXISTS `archive`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `archive` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `uri` longtext COLLATE utf8mb4_bin,
+  `url` longtext COLLATE utf8mb4_bin,
   `author` longtext COLLATE utf8mb4_bin,
   `title` longtext COLLATE utf8mb4_bin,
   `collection` longtext COLLATE utf8mb4_bin,
@@ -53,9 +59,9 @@ CREATE TABLE `archive` (
   `creator` longtext COLLATE utf8mb4_bin,
   `biography` longtext COLLATE utf8mb4_bin,
   `description` longtext COLLATE utf8mb4_bin,
-) ENGINE=MyISAM AUTO_INCREMENT=115 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=143 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 
 --
 -- Table structure for table `audiobook`
@@ -72,7 +78,7 @@ CREATE TABLE `audiobook` (
   `excerpt` longtext COLLATE utf8mb4_bin,
   `user` longtext COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=168 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=175 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +102,7 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'waveColor','#93F470'),(2,'progressColor','#ED54BF'),(3,'mapWaveColor','#82E8DA'),(4,'mapProgressColor','#FFF94A');
+INSERT INTO `settings` VALUES (1,'waveColor','#93F470'),(2,'progressColor','#ED54BF'),(3,'mapWaveColor','#4CC4E8'),(4,'mapProgressColor','#FFF94A');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,15 +124,6 @@ CREATE TABLE `upload` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `upload`
---
-
-LOCK TABLES `upload` WRITE;
-/*!40000 ALTER TABLE `upload` DISABLE KEYS */;
-/*!40000 ALTER TABLE `upload` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `user`
 --
 
@@ -142,7 +139,7 @@ CREATE TABLE `user` (
   `nbt` int(11) DEFAULT '0',
   `tts` time DEFAULT '00:00:00',
   PRIMARY KEY (`_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,7 +148,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (6,'admin','your-password','rgba(198,131,212,0.1)',1,59,'10:15:51');
+INSERT INTO `user` VALUES (1,'admin','<your-password>','rgba(198,131,212,0.1)',1,66,'13:07:03');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -164,4 +161,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-10  5:23:41
+-- Dump completed on 2025-01-28 23:40:26

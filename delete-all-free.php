@@ -8,7 +8,7 @@ include("config.php");
      exit(-1);
   }
   $source = $_POST['source'];
-  error_log("Deleting free annotations or : ".$source );
+  error_log("Deleting free annotations for : ".$source );
 
   $link = mysqli_connect($config['dbhost'], $config['dbuser'], $config['dbpass'], $config['dbname']);
   if (!$link) {
