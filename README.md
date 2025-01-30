@@ -69,7 +69,7 @@ if some requests are communicated to : chevil@giss.tv
 
 If you appreciate our developments and find a.N.a.B. useful,
 we would appreciate that you would support our work
-with a donation to <a href='https:/giss.tv>GISS.tv</a>.
+with a donation to [GISS.tv](http://giss.tv).
 
 A showcase video of actual features is available here :
 http://giss.tv/~chevil/Videos/anab.webm
