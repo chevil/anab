@@ -4,7 +4,7 @@ include("functions.php");
 
 session_start();
 
-$servroot = "http://".$_SERVER['HTTP_HOST'].":".$_SERVER['SERVER_PORT'];
+$servroot = "https://".$_SERVER['HTTP_HOST'].":".$_SERVER['SERVER_PORT'];
 
 if ( isset( $_GET['search'] ) )
 {
