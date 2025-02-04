@@ -36,7 +36,6 @@ $trlangs = array (
  "ht" => "Haitian creole",
  "ha" => "Hausa",
  "haw" => "Hawaiian",
- "iw" => "Hebrew",
  "he" => "Hebrew",
  "hi" => "Hindi",
  "hmn" => "Hmong",

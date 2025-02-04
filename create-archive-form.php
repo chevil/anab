@@ -98,7 +98,7 @@ print "
 <form action='javascript:doCreateArchive()' id='createform' name='createform' action=post>
 <table width=50% align=center>
 <tr><td align=center colspan=2>
-<label for='user'>Media file URL ( audio or video file ) <br/>If you encounter a problem, write to gissnetwork@giss.tv<br/></label><br/>Here, dont put a link to youtube as this is a stream format that needs to be extracted first with a tool like <a href='https://publer.com/tools/youtube-video-downloader'>Publer</a>.
+<label for='user'>Media file URL ( audio or video file ) <br/>If you encounter a problem, write to gissnetwork@giss.tv<br/></label><br/><br/>Here, dont put a link to youtube as this is a stream format that needs to be extracted first with a tool like <a href='https://publer.com/tools/youtube-video-downloader'>Publer</a><br/><br/>Check also that the server hosting the file allows the Cross Domain file loading.
 </td></tr>
 <tr><td colspan=2>
 <input type='text' id='url' name='url' style='width:100%;'/>

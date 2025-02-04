@@ -105,7 +105,7 @@ while ( $rowsetting = mysqli_fetch_array( $ressettings) )
                 <option value='small'>Small</option>
                 <option value='turbo'>Turbo</option>
              </select><br/><br/>
-             <button type="submit" class="btn btn-success btn-block btn-whisper">Call and Pray</button>
+             <button type="submit" class="btn btn-success btn-block btn-whisper">Call and Play</button>
              </center>
              </form>
             </div>
