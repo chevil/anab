@@ -278,7 +278,8 @@ while ( $rowbook = mysqli_fetch_row( $respagebooks) )
    print "<tr><td align=left>".urldecode($rowbook[0])."</td>";
    print "<td align=left>".$rowbook[2]."</td>";
    print "<td align=center><a href='javascript:editBook(\"".$htitle."\");'><img src='img/edit.png' width=20px height=20px /></a></td>";
-   print "<td align=center><a href='".$servroot.dirname($_SERVER['SCRIPT_NAME'])."/audiobooks/".$htitle."/listen.php'><img src='img/ear.png' width=20px height=20px /></a></td>";
+   // print "<td align=center><a href='".$servroot.dirname($_SERVER['SCRIPT_NAME'])."/audiobooks/".$htitle."/listen.php'><img src='img/ear.png' width=20px height=20px /></a></td>";
+   print "<td align=center><a href='audiobooks/".$htitle."/listen.php'><img src='img/ear.png' width=20px height=20px /></a></td>";
    print "<td align=center><a href='javascript:getBook(\"".$htitle."\");'><img src='img/generate.png' width=20px height=20px /></a></td>";
    print "<td align=center><a href='javascript:deleteBook(\"".$htitle."\");'><img src='img/delete.png' width=20px height=20px /></a></td>";
    print "</tr>";

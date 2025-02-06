@@ -114,6 +114,7 @@ else
 <body background="img/background.png">
 <a href="./index.php"><i class="fa fa-home fa-2x" aria-hidden="true" style="color: #999; float:left; margin-left:20px; margin-top:28px;" ></i></a>
 
+
 <center><table width=90%>
 <tr>
 <td align=center>
@@ -170,7 +171,8 @@ while ( $rowuser = mysqli_fetch_row( $respageusers) )
    print "<td align=left>".$rowuser[6]."</td>";
    print "<td align=left>".$rowuser[7]."</td>";
    print "<td align=center><a href='javascript:editArchive(".$rowuser[0].");'><img src='img/edit.png' width=20px height=20px /></a></td>";
-   print "<td align=center><a href='".$servroot.dirname($_SERVER['SCRIPT_NAME'])."/".htmlentities($rowuser[1], ENT_QUOTES)."'><img src='img/see.png' width=20px height=20px /></a></td>";
+   // print "<td align=center><a href='".$servroot.dirname($_SERVER['SCRIPT_NAME'])."/".htmlentities($rowuser[1], ENT_QUOTES)."'><img src='img/see.png' width=20px height=20px /></a></td>";
+   print "<td align=center><a href='".htmlentities($rowuser[1], ENT_QUOTES)."'><img src='img/see.png' width=20px height=20px /></a></td>";
    print "<td align=center><a href='javascript:deleteArchive(".$rowuser[0].");'><img src='img/delete.png' width=20px height=20px /></a></td>";
    print "</tr>";
    $count++;
