@@ -12,6 +12,12 @@ It is based on the wavesurfer.js library
 that uses the Web Audio Api
 to process audio within the browser.
 
+===== PRELIMINARY =====
+
+This project should be installed in an HTTPS zone
+and the installation should be made under the account
+running apache, usually www-data:www-data.
+
 ===== PREREQUISITES =====
 
 * A LAMP server
@@ -48,6 +54,8 @@ pip3 install openai-whisper
 
 > mysql wavesurfer < wavesurfer.sql
 
+> cd ..
+
 * edit config.php and change these lines according
 to your mysql configuration :
 
@@ -60,6 +68,12 @@ $config['dbuser'] = "__dbuser__";
 $config['dbpass'] = "__dbpass__";
 
 $config['owner'] = "admin";
+
+> cd ..
+
+All the files in the end must belong to www-data:www-data :
+
+chown -R www-data:www-data anab
 
 optionally, if you want to use AI,
 install OpenAI Whisper with :
