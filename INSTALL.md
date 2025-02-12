@@ -84,5 +84,7 @@ You're set, log in to the system as admin
 and create users, archives and books.
 
 concept and programming : chevil@giss.tv
+
 initial concept & design : californiadream@free.fr
+
 testing and advices : jaume@nualart.cat
