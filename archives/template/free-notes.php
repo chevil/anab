@@ -102,7 +102,8 @@ while ( $rowsetting = mysqli_fetch_array( $ressettings) )
              </select>
              <strong>Model</strong>
              <select id='AImodel'>
-                <option value='small'>Small</option>
+                <option value='tiny'>Tiny</option>
+                <option value='small' selected>Small</option>
                 <option value='turbo'>Turbo</option>
              </select><br/><br/>
              <button type="submit" class="btn btn-success btn-block btn-whisper">Call and Play</button>
