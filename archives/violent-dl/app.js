@@ -293,8 +293,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
       // console.log( "free wavesurfer loading : " + percents + "%");
       $("#message-wait").html("Loading waveform : " + percents + "%");
       if ( percents == 100 ) {
-          $("#message-wait").html("Loading waveform..");
-          $("#modal-wait").modal("hide");
+          // $("#message-wait").html("Loading notes..");
+          // $("#modal-wait").modal("hide");
+          loadRegions();
       }
     });
 
@@ -304,14 +305,14 @@ document.addEventListener('DOMContentLoaded', (e) => {
         url: 'peaks.json'
     }, function(data) {
         peaks = data;
-        console.log( "got peaks : " + peaks.length + "/" + 2*nbPeaks);
+        console.log( "free got peaks : " + peaks.length + "/" + 2*nbPeaks);
         if ( peaks.length == 2*nbPeaks ) {
            console.log( "free : loading with peaks : " + soundfile );
            wavesurfer.load( soundfile, data );
-           $("#modal-wait").modal("hide");
+           // $("#modal-wait").modal("hide");
            gotPeaks=true;
         } else {
-           console.log( "loading no peaks : " + soundfile );
+           console.log( "free : loading no peaks : " + soundfile );
            wavesurfer.load( soundfile );
            gotPeaks=false;
         }
@@ -329,7 +330,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
             color: randomColor(0.1)
         });
 
-        loadRegions();
+        // loadRegions();
         // full view
         wzoom = ( $("#waveform").width() / wavesurfer.getDuration() ).toFixed(2);
         $('#zlabel').html("Zoom : " + Number(wzoom));
@@ -1008,6 +1009,8 @@ function saveRegions() {
  */
 function loadRegions() {
  
+    $("#modal-wait").modal("show");
+    $("#message-wait").html("Loading notes ...");
     wavesurfer.un('region-updated');
     wavesurfer.un('region-removed');
     wavesurfer.clearRegions();
@@ -1026,6 +1029,7 @@ function loadRegions() {
            console.log("show free frozen : " + frozen);
         }
         nbRegions++;
+        // console.log("loading note #" + region.norder );
         wregion = wavesurfer.regions.add({
              start: region.start,
              end: region.end,
@@ -1045,6 +1049,7 @@ function loadRegions() {
       updateLanguages();
       creationPending=false;
       console.log("creationPending = false");
+      $("#modal-wait").modal("hide");
     }).fail(function(error) {
       console.log( "couldn't load annotations : " + JSON.stringify(error) );
     });

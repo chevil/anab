@@ -194,13 +194,15 @@ function updateLanguages() {
 
 var loadRegions = function() {
     console.log('loading region linear');
-        var jqxhr = $.post( {
+    $("#message-waitl").html("Loading notes... ");
+    $("#modal-waitl").modal("show");
+    var jqxhr = $.post( {
                    responseType: 'json',
                    url: 'get-annotations-linear.php',
                    data: {
                       source: fullEncode(soundfile)
                    }
-        }, function(data) {
+    }, function(data) {
                    var counter=4095;
                    if (data) console.log( "got linear annotations : " + data.length );
                    if ( data.length > 0 )
@@ -247,11 +249,12 @@ var loadRegions = function() {
                    $('#svalue').html(("x"+wspeed).substring(0,4));
    
                    $("#ptime").html( toHHMMSS(wavesurfer.getCurrentTime()) + " / " + toHHMMSS(wavesurfer.getDuration()) );
+                   $("#modal-waitl").modal("hide");
 
 
-         }).fail(function(error) {
-                   console.log( "couldn't load annotations : " + JSON.stringify(error) );
-         });
+    }).fail(function(error) {
+           console.log( "couldn't load annotations : " + JSON.stringify(error) );
+    });
 }
 
 var savePeaks = function() {
@@ -342,8 +345,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
       // console.log( "linear wavesurfer loading : " + percents + "%");
       $("#message-waitl").html("Loading waveform : " + percents + "%");
       if ( percents == 100 ) {
-        $("#message-waitl").html("Loading waveform... ");
-        $("#modal-waitl").modal("hide");
+        // $("#message-waitl").html("Loading waveform... ");
+        // $("#modal-waitl").modal("hide");
+        loadRegions();
       }
     });
 
@@ -418,7 +422,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
         wavey = wposition.y;
         wavey = 100;
 
-        loadRegions();
+        // loadRegions();
 
         var atrans = "<img src='../../img/translate.png' title='Translate Document' class='trans-header' id='tall' onclick='translateStartAlll()' />";
         $("#archive-header").append(atrans);
