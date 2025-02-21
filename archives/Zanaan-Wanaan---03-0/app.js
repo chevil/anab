@@ -290,12 +290,15 @@ document.addEventListener('DOMContentLoaded', (e) => {
     });
 
     wavesurfer.on('loading', function (percents) {
-      // console.log( "free wavesurfer loading : " + percents + "%");
-      $("#message-wait").html("Loading waveform : " + percents + "%");
-      if ( percents == 100 ) {
-          // $("#message-wait").html("Loading notes..");
-          // $("#modal-wait").modal("hide");
-          loadRegions();
+      if (!gotPeaks ) {
+         // console.log( "free wavesurfer loading : " + percents + "%");
+         $("#message-wait").html("Loading waveform : " + percents + "%");
+         if ( percents == 100 ) {
+             // $("#message-wait").html("Loading notes..");
+             // $("#modal-wait").modal("hide");
+             loadRegions();
+             savePeaks();
+         }
       }
     });
 
@@ -308,9 +311,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
         console.log( "free got peaks : " + peaks.length + "/" + 2*nbPeaks);
         if ( peaks.length == 2*nbPeaks ) {
            console.log( "free : loading with peaks : " + soundfile );
-           wavesurfer.load( soundfile, data );
-           // $("#modal-wait").modal("hide");
+           wavesurfer.load( soundfile, peaks );
            gotPeaks=true;
+           loadRegions(); 
         } else {
            console.log( "free : loading no peaks : " + soundfile );
            wavesurfer.load( soundfile );
@@ -1011,7 +1014,6 @@ function loadRegions() {
  
     $("#modal-wait").modal("show");
     $("#message-wait").html("Loading notes ...");
-    console.log("free load regions");
     wavesurfer.un('region-updated');
     wavesurfer.un('region-removed');
     wavesurfer.clearRegions();

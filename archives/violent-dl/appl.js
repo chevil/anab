@@ -257,33 +257,6 @@ var loadRegions = function() {
     });
 }
 
-var savePeaks = function() {
-        if ( !gotPeaks ) {
-           aPeaks = wavesurfer.backend.getPeaks(nbPeaks,0,nbPeaks-1);
-           console.log( "saving peaks : " + aPeaks.length );
-           if ( aPeaks.length > 0 ) {
-             var jqxhr = $.post( {
-               url: 'save-peaks.php',
-               data: {
-	           'json': JSON.stringify(aPeaks)
-               },
-               dataType: 'application/json'
-             }, function() {
-               console.log( "saving peaks succeeded" );
-             }).fail(function(error) {
-               if ( error.status === 200 ) {
-                  console.log( "saving peaks success");
-                  // location.reload();
-               } else {
-                  console.log( "saving peaks failed : status : " + error.status + " message : " + JSON.stringify(error));
-               }
-             });
-          } else {
-            console.log( "I can't get no peaks !!" );
-          } 
-        } 
-}
-
 /**
  * Init & load.
  */
@@ -312,10 +285,13 @@ document.addEventListener('DOMContentLoaded', (e) => {
     mapWaveColor = $("#mapwavecolor").html();
 
     $(document).scroll(function() {
-       if ( $(document).scrollTop() <= wavey ) 
+       if ( $(document).scrollTop() <= wavey ) {
           $("#waveform").css({top:''});
-       else
+          $("#subtitle").css({top:''});
+       } else {
           $("#waveform").css({top:$(document).scrollTop()-wavey});
+          $("#subtitle").css({top:$(document).scrollTop()-wavey});
+       }
     });
 
     // Init wavesurfer
@@ -360,7 +336,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
         console.log( "got peaks : " + peaks.length );
         if ( peaks.length == 2*nbPeaks ) {
            console.log( "linear : loading with peaks : " + soundfile );
-           wavesurfer.load( soundfile, data );
+           wavesurfer.load( soundfile, peaks );
            $("#modal-waitl").modal("hide");
            gotPeaks=true;
         } else {

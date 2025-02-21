@@ -114,6 +114,7 @@ body {
     float: left;
     background: #ffffaa;
     overflow-y: auto;
+    position: relative;
 }
 
 .linear-subtitle-left {
