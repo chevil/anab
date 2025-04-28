@@ -14,6 +14,7 @@ var svid;
 var wavey=-1;
 var frozenl=false;
 var maxFrozenl = 200;
+var annOffset = 4095;
 var showFrozenl = 0;
 var currentRegion = null;
 var nbRegions=0;
@@ -139,15 +140,16 @@ var playRegion = function(regid, changeState) {
           console.log("linear pause" );
           wavesurfer.pause();
         }
+        updateTable();
     } else {
         console.log("linear play region over other : " + regid );
         console.log("linear play loop" );
         currentRegion = regid;
         wregion.setLoop(true);
         wregion.playLoop();
+        updateTableOne(currentRegion);
     }
 
-    updateTableOne(currentRegion);
     wavesurfer.setDisabledEventEmissions([]);
 }
 
@@ -203,7 +205,7 @@ var loadRegions = function() {
                       source: fullEncode(soundfile)
                    }
     }, function(data) {
-                   var counter=4095;
+                   var counter=annOffset;
                    if (data) console.log( "got linear annotations : " + data.length );
                    if ( data.length > 0 )
                       regions = data;
@@ -493,7 +495,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
         Object.keys(wavesurfer.regions.list).map(function(id) {
            ++counter;
            if ( id === currentRegion ) {
-              order=counter+4095;
+              order=counter+annOffset;
            }
         });
         console.log("translate request on : " + soundfile + " : " + order);
@@ -595,7 +597,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
              note: "",
              user: user,
              color: ucolor,
-             norder: nbRegions+4095+1,
+             norder: nbRegions+annOffset,
              id: -1, 
              whispered : 0
           }
@@ -755,12 +757,12 @@ function splitAnnotation() {
                           data: {
                             note: ( lregion.data != undefined ) ? lregion.data.note : '',
                             user: user,
-                            norder: nbRegions+4095+1,
+                            norder: nbRegions+annOffset,
                             color: ucolor,
                             whispered : ( lregion.data.whispered != undefined ) ? lregion.data.whispered : 0
                           }
                       });
-                console.log("created linear region # : " + nbRegions+4095+1 );
+                console.log("created linear region # : " + nbRegions+annOffset );
                 drawAndSaveRegions();
                 nbRegions++;
             }
@@ -817,14 +819,12 @@ function doDeleteAnnotation(index) {
            currentRegion = id;
            var region = wavesurfer.regions.list[id];
            deleteNote(wavesurfer.regions.list[id]);
-           wavesurfer.regions.list[id].remove();
-           drawAndSaveRegions();
 
-           console.log("Do delete annotation : " + 4096+counter);
+           console.log("Do delete annotation : " + (annOffset+counter));
            var jqxhr = $.post( {
              url: '../../delete-annotation.php',
              data: {
-               order: 4096+counter,
+               order: annOffset+counter,
                source: fullEncode(soundfile)
              },
              dataType: 'application/json'
@@ -833,6 +833,7 @@ function doDeleteAnnotation(index) {
            })
            .fail(function(error) {
              if ( error.status === 200 ) {
+               loadRegions();
                console.log( "deleting annotation success");
              } else {
                console.log( "deleting annotation failed : " + JSON.stringify(error));
@@ -849,13 +850,13 @@ function doDeleteAnnotation(index) {
 function updateTable() {
     console.log("linear update table");
     $("#linear-notes").html("");
-    let counter=4096;
+    let counter=annOffset;
     Object.keys(wavesurfer.regions.list).map(function(id) {
       var region = wavesurfer.regions.list[id];
       counter++;
       var blank = "<br/><br/><div class='linear-bar' id='bar-"+id+"'>";
       $("#linear-notes").append(blank);
-      var range = "<p>"+(counter-4096)+" : "+toHHMMSS(region.start)+" - "+toHHMMSS(region.end)+" (" + Math.round(region.end-region.start) + " s) : </p>";
+      var range = "<p>"+(counter-annOffset)+" : "+toHHMMSS(region.start)+" - "+toHHMMSS(region.end)+" (" + Math.round(region.end-region.start) + " s) : </p>";
       $("#bar-"+id).append(range);
       if ( whisper == 1 ) {
         var rwhisper = "<img src='../../img/whisper-logo.png' title='Call Whisper AI' class='whisper-logo' id='w"+id+"' onclick='whisperStart(\""+id+"\")' />";
@@ -958,7 +959,7 @@ function drawAndSaveRegions() {
  * Draw markers
  */
 function drawRegions() {
-    var counter=4095;
+    var counter=annOffset;
     // redraw regions and markers
     wavesurfer.clearMarkers();
     console.log( "draw and store regions" );
@@ -973,7 +974,7 @@ function drawRegions() {
             counter++;
             wavesurfer.addMarker({
                time : region.start,
-               label : region.data.norder-4095,
+               label : region.data.norder-annOffset,
                color : "#0000ff",
                position : "bottom"
             });
@@ -983,10 +984,10 @@ function drawRegions() {
                color : "#00ff00",
                position : "bottom"
             });
-            if ((region.data.norder-4096)>=0)
+            if ((region.data.norder-annOffset)>=0)
                wavesurfer.addMarker({
                   time : region.end,
-                  label : region.data.norder-4095,
+                  label : region.data.norder-annOffset,
                   color : "#ff0000",
                   position : "top"
                });
@@ -1198,7 +1199,7 @@ var addToBook = function(regid) {
        e.preventDefault();
        Object.keys(wavesurfer.regions.list).map(function(id) {
           ++counter;
-          if ( regionId === id ) order=counter+4096;
+          if ( regionId === id ) order=counter+annOffset;
        });
        console.log( "adding note #" + order );
        var oldbook = $('#oldbook').val();
@@ -1250,7 +1251,7 @@ var whisperStart = function(regid) {
     callAI.onsubmit = function(e) {
         var model = $('#AImodel').find(":selected").val();
         var wlang = $('#AIlang').find(":selected").val();
-        var counter = 4095;
+        var counter = annOffset;
         var order = -1;
         e.preventDefault();
         if ( language == "None" ) {

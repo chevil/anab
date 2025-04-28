@@ -17,7 +17,7 @@ if (!$link) {
 } else {
    $link->query('SET NAMES utf8');
    $sqls = "SELECT title, author FROM archive WHERE url = '".addslashes($url)."';";
-   error_log( 'Getting title : '.$sqls );
+   // error_log( 'Getting title : '.$sqls );
    $results = $link->query($sqls);
    if ( mysqli_num_rows($results) <= 0 ) {
       header('HTTP/1.1 500 Error getting title : '.mysqli_num_rows($results));	  
@@ -26,9 +26,9 @@ if (!$link) {
    } else {
       $row = mysqli_fetch_array($results);
       if ( $row['author'] != "" && strtolower($row['author']) != "unknown" )
-         echo $row['title']." (".$row['author'].")";
+         echo trim($row['title'])." (".trim($row['author']).")";
       else
-         echo $row['title'];
+         echo trim($row['title']);
       mysqli_close($link);
    }
 }
