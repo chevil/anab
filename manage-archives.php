@@ -39,7 +39,7 @@ else
    $size = 20;
 }
 
-$clause = " WHERE ( ( LOWER(title) LIKE '%".addslashes($search)."%' ) OR ( LOWER(author) LIKE '%".addslashes($search)."%' ) OR ( LOWER(collection) LIKE '%".addslashes($search)."%' ) OR ( LOWER(date) LIKE '%".addslashes($search)."%' ) ) ORDER BY ID ";
+$clause = " WHERE ( ( LOWER(title) LIKE '%".addslashes($search)."%' ) OR ( LOWER(author) LIKE '%".addslashes($search)."%' ) OR ( LOWER(collection) LIKE '%".addslashes($search)."%' ) OR ( LOWER(date) LIKE '%".addslashes($search)."%' ) ) ORDER BY ID DESC ";
 
 if (isset($_SESSION['schtroumpf']) && isset($_SESSION['papa']) )
 {
