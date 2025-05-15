@@ -243,7 +243,9 @@ var loadRegions = function() {
                    drawAndSaveRegions();
                    updateLanguages();
 
-                   wzoom = ( $("#waveform").width() / wavesurfer.getDuration() ).toFixed(2);
+                   wzoom = (wavesurfer.getDuration() < 100 ) ?
+                           ( $("#waveform").width() / wavesurfer.getDuration() ).toFixed(2): // full view
+                           ( wavesurfer.getDuration() / 100.0 ).toFixed(2); // zoomed view
                    $('#zlabel').html("Zoom : " + Number(wzoom).toFixed(2));
                    $('#zoomZoom').value = Number(wzoom);
                    wavesurfer.zoom(wzoom);
