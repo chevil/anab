@@ -373,7 +373,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
        var inRegion = false;
        Object.keys(wavesurfer.regions.list).map(function(id) {
            var wregion = wavesurfer.regions.list[id];
-           if ( wregion.end > newTime && newTime > wregion.start ) {
+           if ( wregion.end > newTime && newTime >= wregion.start ) {
               inRegion = true;
            } else {
               wregion.setLoop(false);
