@@ -32,6 +32,9 @@ you need OpenAI whisper,
 install it with :
 pip3 install openai-whisper
 
+then make a link from the whisper where pip installed it,
+usually in a virtual environment to /usr/local/bin/whisper.
+
 ( you have the ability to enable/disable the use of AI for each user )
 
 ===== INSTALL =====

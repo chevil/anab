@@ -85,15 +85,16 @@ function detached_exec($cmd) {
      exit(-1);
   }
 
-  $cmd="which whisper";
+  $cmd="export PATH='/usr/local/bin':$PATH; which whisper";
   $cmdoutput = array();
   $cmdresult = 0;
   error_log($cmd);
   $result = exec($cmd, $cmdoutput, $cmdresult);
-  if ($cmdoutput[0]=="") {
-     header('HTTP/1.1 406 Whisper is not installed on the back-end, you should install it with : pip3 install openai-whisper');	  
-     exit(-1);
-  }
+  error_log($cmdresult);
+  // if ($cmdoutput[0]=="") {
+  //    header('HTTP/1.1 406 Whisper is not installed on the back-end, you should install it with : pip3 install openai-whisper and create a link to whisper in /usr/local/bin');	  
+  //   exit(-1);
+  // }
 
   $link = mysqli_connect($config['dbhost'], $config['dbuser'], $config['dbpass'], $config['dbname']);
   if (!$link) {
