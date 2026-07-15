@@ -218,7 +218,7 @@ while ( $rowsetting = mysqli_fetch_array( $ressettings) )
                 <div id='selectAlll' class='select-all'>Select All</div>
                 <div id='resetAlll' class='reset-all'>Reset All</div>
                 <div id='frozenl' class='frozen'>Frozen</div>
-                <i id="help" class="fa fa-question-circle fa-2x help-question" aria-hidden="true" ></i>
+                <i id="elp" class="fa fa-question-circle fa-2x help-question" aria-hidden="true" ></i>
             </div>
 
             <div id="demo" class="outer-wave-full">

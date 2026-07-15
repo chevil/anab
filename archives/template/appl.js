@@ -404,13 +404,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
         // loadRegions();
 
-        var atrans = "<img src='../../img/translate.png' title='Translate Document' class='trans-header' id='tall' onclick='translateStartAlll()' />";
-        $("#archive-header").append(atrans);
-        var select = "<select id='set-languagel' class='select-language'></select>&nbsp;&nbsp;";
-        $("#archive-header").append(select);
-        var header = "<span class='header-language'>Language&nbsp;&nbsp;</span>";
-        $("#archive-header").append(header);
-
     }); // ready
 
     wavesurfer.on('region-click', regionClick);
@@ -680,6 +673,14 @@ document.addEventListener('DOMContentLoaded', (e) => {
            console.log( "getting audiobooks failed : " + JSON.stringify(error));
         });
     });
+
+    // add language choice menu to the header
+    var atrans = "<img src='../../img/translate.png' title='Translate Document' class='trans-header' id='tall' onclick='translateStartAlll()' />";
+    $("#archive-header").append(atrans);
+    var select = "<select id='set-languagel' class='select-language'></select>&nbsp;&nbsp;";
+    $("#archive-header").append(select);
+    var header = "<span class='header-language'>Language&nbsp;&nbsp;</span>";
+    $("#archive-header").append(header);
 
     let langselect = document.getElementById('AIlang');
     for (const lang of wlangs)  {

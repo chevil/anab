@@ -329,6 +329,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
     /* Regions */
     wavesurfer.on('ready', function() {
 
+        console.log('wavesurfer ready');
+
         wavesurfer.enableDragSelection({
             color: randomColor(0.1)
         });
@@ -348,13 +350,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 	       wavesurfer.seekTo( sstart/wavesurfer.getDuration() );
            }
         }
-        // adding the language choice to the title ( only once )
-        var atrans = "<img src='../../img/translate.png' title='Translate Document' class='trans-header' id='tall' onclick='translateStartAll()' />";
-        $("#archive-header").append(atrans);
-        var select = "<select id='set-language' class='select-language'></select>&nbsp;&nbsp;";
-        $("#archive-header").append(select);
-        var header = "<span class='header-language'>Language&nbsp;&nbsp;</span>";
-        $("#archive-header").append(header);
+
         moveSpeech();
 
     });
@@ -848,6 +844,14 @@ document.addEventListener('DOMContentLoaded', (e) => {
         // });
         // drawAndSaveRegions();
     });
+
+    // adding the language choice to the header ( only once )
+    var atrans = "<img src='../../img/translate.png' title='Translate Document' class='trans-header' id='tall' onclick='translateStartAll()' />";
+    $("#archive-header").append(atrans);
+    var select = "<select id='set-language' class='select-language'></select>&nbsp;&nbsp;";
+    $("#archive-header").append(select);
+    var header = "<span class='header-language'>Language&nbsp;&nbsp;</span>";
+    $("#archive-header").append(header);
 
     let langselect = document.getElementById('AIlang');
     for (const lang of wlangs)  {
