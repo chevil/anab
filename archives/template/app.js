@@ -1213,21 +1213,28 @@ function showNote(region) {
     if ( region.data && region.data.note ) {
        var lines = region.data.note.split("\n");
        lines.forEach( function( line, index ) {
-          // console.log(line.substring(2,3) + " " + line);
           if ( line.substring(2,3) ==  ":" ) {
              if ( language === '--' || language === line.substring(0,2) ) {
                 snote += line.substring(3);
+                // check if it's html or normal text
+                if ( !strstr( line, "<" ) && !strstr( line, ">" ) ) {
+                   snote += "<br/>";
+                }
              }
           } else if ( line.substring(3,4) ==  ":" ) {
              if ( language === '--' || language === line.substring(0,3) ) {
                 snote += line.substring(4);
+                // check if it's html or normal text
+                if ( !strstr( line, "<" ) && !strstr( line, ">" ) ) {
+                   snote += "<br/>";
+                }
              }
           } else {
              snote += line;
-          }
-          // check if it's html or normal text
-          if ( !strstr( line, "<" ) && !strstr( line, ">" ) ) {
-             snote += "<br/>";
+             // check if it's html or normal text
+             if ( !strstr( line, "<" ) && !strstr( line, ">" ) ) {
+                snote += "<br/>";
+             }
           }
        });
     }
