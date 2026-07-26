@@ -14,7 +14,7 @@ include("config.php");
      exit(-1);
   }
   $source = $_POST['source'];
-  error_log("Deleting annotation #".$order." for : ".$source );
+  // error_log("Deleting annotation #".$order." for : ".$source );
 
   $link = mysqli_connect($config['dbhost'], $config['dbuser'], $config['dbpass'], $config['dbname']);
   if (!$link) {

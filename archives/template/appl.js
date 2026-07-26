@@ -861,12 +861,12 @@ function updateTable() {
       $("#linear-notes").append(blank);
       var range = "<p>"+(counter-annOffset)+" : "+toHHMMSS(region.start)+" - "+toHHMMSS(region.end)+" (" + Math.round(region.end-region.start) + " s) : </p>";
       $("#bar-"+id).append(range);
+      var rtrans = "<img src='../../img/translate.png' title='Translate Note' class='trans-logo' id='t"+id+"' onclick='translateStart(\""+id+"\")' />";
+      $("#bar-"+id).append(rtrans);
       if ( whisper == 1 ) {
         var rwhisper = "<img src='../../img/whisper-logo.png' title='Call Whisper AI' class='whisper-logo' id='w"+id+"' onclick='whisperStart(\""+id+"\")' />";
         $("#bar-"+id).append(rwhisper);
       }
-      var rtrans = "<img src='../../img/translate.png' title='Translate Note' class='trans-logo' id='t"+id+"' onclick='translateStart(\""+id+"\")' />";
-      $("#bar-"+id).append(rtrans);
       var rbook = "<i class='fa fa-book fa-1x linear-book' title='Add to Book' id='b"+id+"' onclick='addToBook(\""+id+"\")'></i>";
       $("#bar-"+id).append(rbook);
       var rplay = "<i class='fa fa-play fa-1x linear-play' title='Play this Part' id='r"+id+"' onclick='playRegion(\""+id+"\",\"true\")'></i>";
@@ -1170,7 +1170,7 @@ function regionClick(region, e) {
     if ( currentRegion != null && region.id != currentRegion )
        deleteNote(currentRegion);
     showNote(region);
-    playRegion(region.id, true );
+    // playRegion(region.id, true );
 
     var clickEvent = new MouseEvent("click", {
         bubbles: true,
@@ -1178,8 +1178,8 @@ function regionClick(region, e) {
         clientX: e.clientX,
         clientY: e.clientY
     });
-    document.querySelector('wave').dispatchEvent(clickEvent);
-    setTimeout( "showCurrentNote();", 500 );
+    // document.querySelector('wave').dispatchEvent(clickEvent);
+    // setTimeout( "showCurrentNote();", 500 );
 }
 
 var sorta = function( notea, noteb ) {
@@ -1369,7 +1369,7 @@ function deleteNote(region) {
     if (!deleteNote.el) {
        deleteNote.el = document.querySelector('#subtitle');
     }
-    if ( region.id === currentRegion && !region.loop ) {
+    if ( region.id === currentRegion ) {
        deleteNote.el.innerHTML = '';
     }
     updateTable();

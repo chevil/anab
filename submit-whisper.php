@@ -135,7 +135,7 @@ function detached_exec($cmd) {
           $excerpt_title= substr($annlines[0],0,40)."...";
         }
         $duration = $end - $start;
-         error_log( "Annotation duration ; ".$duration." language : ".$lang );
+        error_log( "Annotation duration ; ".$duration." language : ".$lang );
         if ( ($duration<=30.0 ) && ($lang=="Guess") ) {
            error_log( 'Annotation is less than 30 seconds, so please, specify the language, it\'s impossible to guess!');
            header('HTTP/1.1 406 Annotation is less than 30 seconds, so please, specify the language, it\'s impossible to guess!');

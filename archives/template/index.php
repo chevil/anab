@@ -104,7 +104,7 @@ var openTab = function(name) {
   if ( name == "Linear" ) {
      // $("#modal-wait").modal("hide");
      if ( firstTime ) {
-        $("#linear-frame").attr("src","linear-notes.php");
+        // $("#linear-frame").attr("src","linear-notes.php");
         firstTime = false;
      }
   }
