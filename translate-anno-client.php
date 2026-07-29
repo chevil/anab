@@ -13,8 +13,8 @@ if ( count($argv) != 4 ) {
 }
 
 $annid = $argv[1];
-$slang=$argv[2];
-$olang=$argv[3];
+$slang = $argv[2];
+$target = $argv[3];
 
 $link = mysqli_connect($config['dbhost'], $config['dbuser'], $config['dbpass'], $config['dbname']);
 if (!$link) {
@@ -22,47 +22,63 @@ if (!$link) {
    exit(-1);
 } else {
      $link->query('SET NAMES utf8');
+     $transdata="";
 
      // get annotation text
      $anntext = '';
-     $sql="SELECT data FROM annotation WHERE id=".$annid;
+     $sql="SELECT data, id FROM annotation WHERE id=".$annid.";";
      $results=$link->query($sql);
      if ( mysqli_num_rows($results) != 1 ) {
-        error_log( 'Couldn\'t get annotation : '.$annid.' : '.$sql);
+        error_log( 'Couldn\'t get annotation for : '.$source.' : '.$sql);
         mysqli_close($link);
         exit(-1);
      } else {
         $rowres=mysqli_fetch_row($results);
         $anntext = $rowres[0];
+        $annid = $rowres[1];
         $annlines = preg_split('/\r\n|\r|\n/', $anntext);
         forEach( $annlines as $line ) {
-          if ( strstr( $line, $langin.":" ) ) {
-             print $line."\n";
+          if ( $line == "" ) continue;
+          if ( $line[2] == ':' ||
+               $line[3] == ':' ) { // this is translation, copy as such
+             $transdata .= $line."\n";
           } else {
-             print $slang.":".$line."\n";
+             $transdata .= $slang.":".$line."\n";
           }
         }
      }
      if ( $anntext == "" ) {
         mysqli_close($link);
+        error_log('HTTP/1.1 200 Translation success');
         exit(0);
      }
 
      // translate the annotation for each out language
      $cmdresult = 0;
-     $langsout = explode(',', $olang );
+     $langsout = explode(',', $target );
      forEach ($langsout as $lo) {
-        if ( strstr( $anntext, $lo.":" ) ) {
+        if ( strstr( $anntext, $lo.":" ) || ( $lo == $slang ) ) {
            // annotation is already translated to that language
            continue;
         }
         $annlines = preg_split('/\r\n|\r|\n/', $anntext);
+        $rline = "";
         forEach( $annlines as $line ) {
-           $rline = $line;
-           if ( $line[2] == ':' ) {
-              // annotation is already a translation, remove translation part
-              $rline = substr($line, 3);
+           if ( !strstr( $line, ":" ) ) { // not a translated text
+              $rline .= $line;
            }
+           if ( $line[2] == ':' ||
+                $line[3] == ':' ) { // this is translation
+              if ( substr($line, 0, 2) == $slang ) { // ==> translation to the source language
+                  $rline .= substr($line, 3);
+              } else if ( substr($line, 0, 3) == $slang ) { // ==> to be translated
+                  $rline .= substr($line, 4);
+              } else {
+                  // ignored, never asked to be translated from this language
+                  continue;
+              }
+           }
+           if ( $rline === "" ) continue; // ligne ignored as it is a translation to another language
            $cmdoutput = array();
            $cmd="php translate.php $slang $lo \"$rline\"\n";
            // error_log($cmd);
@@ -72,12 +88,15 @@ if (!$link) {
               mysqli_close($link);
               exit(-1);
            } else {
-              print $lo.":".$cmdoutput[0]."\n";
+              if ( $cmdoutput[0] != "" )  
+                 $transdata .= $lo.":".$cmdoutput[0]."\n";
            }
         }
      }
+     echo $transdata;
+     error_log('HTTP/1.1 200 Translation success');
+     mysqli_close($link);
+     exit(0);
 }
 
-mysqli_close($link);
-exit(0)
 ?>

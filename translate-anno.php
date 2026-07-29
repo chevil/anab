@@ -73,6 +73,8 @@ if (!$link) {
           if ( $line[2] == ':' ||
                $line[3] == ':' ) { // this is translation, copy as such
              $transdata .= $line."\n";
+          } else {
+             $transdata .= $slang.":".$line."\n";
           }
         }
      }
@@ -91,17 +93,17 @@ if (!$link) {
            continue;
         }
         $annlines = preg_split('/\r\n|\r|\n/', $anntext);
+        $rline = "";
         forEach( $annlines as $line ) {
-           $rline = "";
            if ( !strstr( $line, ":" ) ) { // not a translated text
-              $rline = $line;
+              $rline .= $line;
            }
            if ( $line[2] == ':' ||
                 $line[3] == ':' ) { // this is translation
               if ( substr($line, 0, 2) == $slang ) { // ==> translation to the source language
-                  $rline = substr($line, 3);
+                  $rline .= substr($line, 3);
               } else if ( substr($line, 0, 3) == $slang ) { // ==> to be translated
-                  $rline = substr($line, 4);
+                  $rline .= substr($line, 4);
               } else {
                   // ignored, never asked to be translated from this language
                   continue;
@@ -132,9 +134,9 @@ if (!$link) {
         mysqli_close($link);
         exit(-1);
      }
+     header('HTTP/1.1 200 Annotation '.$annid.' has been translated');
+     mysqli_close($link);
+     exit(0);
 }
 
-header('HTTP/1.1 200 Annotation '.$annid.' has been translated');
-mysqli_close($link);
-exit(0)
 ?>
