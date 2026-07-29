@@ -2,7 +2,7 @@
  * Create a WaveSurfer instance.
  */
 var wavesurfer;
-var wzoom;
+var wzoom = 10;
 var wspeed=1.0;
 var nbPeaks=8192;
 var evid;
@@ -339,9 +339,13 @@ document.addEventListener('DOMContentLoaded', (e) => {
         wzoom = (wavesurfer.getDuration() < 100 ) ?
                 ( $("#waveform").width() / wavesurfer.getDuration() ).toFixed(2): // full view
                 ( wavesurfer.getDuration() / 100.0 ).toFixed(2); // zoomed view
+        if ( isNaN( wzoom ) ) {
+           wzoom = 10.0;
+        }
         $('#zlabel').html("Zoom : " + Number(wzoom));
         $('#zoomZoom').value = Number(wzoom);
         wavesurfer.zoom(wzoom);
+
         $('#svalue').html(("x"+wspeed).substring(0,4));
 	if ( sstart !== null )
         {

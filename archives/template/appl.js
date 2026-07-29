@@ -246,6 +246,9 @@ var loadRegions = function() {
                    wzoom = (wavesurfer.getDuration() < 100 ) ?
                            ( $("#waveform").width() / wavesurfer.getDuration() ).toFixed(2): // full view
                            ( wavesurfer.getDuration() / 100.0 ).toFixed(2); // zoomed view
+                   if ( isNaN( wzoom ) ) {
+                     wzoom = 10.0;
+                   } 
                    $('#zlabel').html("Zoom : " + Number(wzoom).toFixed(2));
                    $('#zoomZoom').value = Number(wzoom);
                    wavesurfer.zoom(wzoom);
