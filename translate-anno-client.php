@@ -62,8 +62,8 @@ if (!$link) {
            continue;
         }
         $annlines = preg_split('/\r\n|\r|\n/', $anntext);
-        $rline = "";
         forEach( $annlines as $line ) {
+           $rline = "";
            if ( !strstr( $line, ":" ) ) { // not a translated text
               $rline .= $line;
            }

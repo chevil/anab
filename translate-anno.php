@@ -50,6 +50,7 @@ $color = $_POST['color'];
 $link = mysqli_connect($config['dbhost'], $config['dbuser'], $config['dbpass'], $config['dbname']);
 if (!$link) {
    error_log( "Could not connect to the database : ".$config['dbname']);
+   header('HTTP/1.1 406 Database connection error');
    exit(-1);
 } else {
      $link->query('SET NAMES utf8');
@@ -93,14 +94,13 @@ if (!$link) {
            continue;
         }
         $annlines = preg_split('/\r\n|\r|\n/', $anntext);
-        $rline = "";
         forEach( $annlines as $line ) {
-           if ( !strstr( $line, ":" ) ) { // not a translated text
+           $rline = "";
+           if ( !strstr( $line, ":" ) ) { // not a translated text, hence original
               $rline .= $line;
-           }
-           if ( $line[2] == ':' ||
-                $line[3] == ':' ) { // this is translation
-              if ( substr($line, 0, 2) == $slang ) { // ==> translation to the source language
+           } else if ( $line[2] == ':' ||
+                       $line[3] == ':' ) { // this is a translation
+              if ( substr($line, 0, 2) == $slang ) { // ==> it is the source language
                   $rline .= substr($line, 3);
               } else if ( substr($line, 0, 3) == $slang ) { // ==> to be translated
                   $rline .= substr($line, 4);
