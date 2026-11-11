@@ -47,7 +47,7 @@ $starttime = time();
 $endtime = $starttime;
 $cmdresult=0;
 $cmdoutput=array();
-$cmd = "whisper --output_dir ./excerpts $annofile $modeloption $langoption > excerpts/whisper_job$annid.log 2>&1";
+$cmd = "whisper-ctranslate2 --condition_on_previous_text False --threads 4 --output_dir ./excerpts $annofile $modeloption $langoption > excerpts/whisper_job$annid.log 2>&1";
 error_log("launching : $cmd");
 $result=exec($cmd, $cmdoutput, $cmdresult);
 if ( $cmdresult != 0 ) {
