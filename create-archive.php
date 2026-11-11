@@ -7,7 +7,7 @@ session_start();
 
 if ( !isset($_SESSION['schtroumpf']) || !isset($_SESSION['papa']) )
 {
-    header( "Location: ./index.php" );
+    print "ERR: You are not logged in, please reconnect!";
     exit();
 }
 
@@ -39,7 +39,7 @@ if ( empty($_GET['user']) )
 }
 $user=$_GET['user'];
 
-error_log("Wave Surfer : Calling : ./create-archive.sh '".urldecode($file)."'");
+error_log("ANAB : Calling : ./create-archive.sh '".urldecode($file)."'");
 if ( strstr( $result=exec("./create-archive.sh \"".urldecode($file)."\""), "ERR:" ) )
 {
    print( $result );
@@ -47,7 +47,7 @@ if ( strstr( $result=exec("./create-archive.sh \"".urldecode($file)."\""), "ERR:
 }
 else
 {
-   error_log($result);
+   error_log("ANAB : ".$result);
    $infos=explode('√',$result);
 
    // saving in the new archive in the database
