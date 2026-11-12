@@ -31,6 +31,7 @@ running apache, usually www-data:www-data.
 you need OpenAI whisper,
 install it with :
 pip3 install openai-whisper
+pip3 install whisper-ctranslate2
 
 then make a link from the whisper where pip installed it,
 usually in a virtual environment to /usr/local/bin/whisper.
@@ -82,6 +83,14 @@ optionally, if you want to use AI,
 install OpenAI Whisper with :
 
 pip3 install openai-whisper
+pip3 install whisper-ctranslate2
+
+to check if your whisper is accessible, 
+check it with :
+
+sudo -u www-data whisper-ctranslate2
+
+and fix permissions accordingly.
 
 You're set, log in to the system as admin
 and create users, archives and books.
